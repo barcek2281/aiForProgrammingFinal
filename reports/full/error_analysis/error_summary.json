@@ -1,0 +1,18 @@
+{
+  "model": "word_tfidf",
+  "test_acts": 38612,
+  "errors_of_best_model": 7989,
+  "errors_shared_by_all_models": 5664,
+  "errors_another_model_gets_right": 2325,
+  "acts_all_models_get_right": 27284,
+  "classes": 35,
+  "classes_with_f1_below_0.5": 9,
+  "mean_f1_classes_under_50_test_acts": 0.272,
+  "mean_f1_classes_from_50_test_acts": 0.669,
+  "top_confusion": {
+    "true": "Конституциялық құрылыс және мемлекеттік басқару негіздері",
+    "predicted": "Қаржы",
+    "errors": 1530,
+    "pct_of_true_class": 20.7
+  }
+}
