@@ -6,7 +6,7 @@ Without the menu:      python main.py --sample --action all
 """
 import argparse
 
-from src import audit, config, data_loader, db, eda, queries
+from src import audit, config, data_loader, db, eda, error_analysis, models, queries
 from src.utils import format_bytes, load_json, print_section, save_json
 
 MENU = {
@@ -19,6 +19,9 @@ MENU = {
     "7": "Build the SQLite database (normalised schema)",
     "8": "SQL analytics (12 queries: JOIN, CTE, window functions)",
     "9": "EDA: charts and findings (PNG + interactive HTML)",
+    "10": "Train and compare models (baselines, TF-IDF x3, LaBSE)",
+    "11": "Error analysis of the best model",
+    "12": "Classify a title typed by the user",
     "s": "Switch between FULL data and the 500-row SAMPLE",
     "0": "Exit",
 }
@@ -132,6 +135,42 @@ def action_eda(paths: dict) -> None:
     eda.run_eda(paths)
 
 
+def action_train(paths: dict) -> None:
+    models.run_comparison(paths)
+
+
+def action_errors(paths: dict) -> None:
+    error_analysis.run_error_analysis(paths)
+
+
+def classify_title(model: dict, title: str) -> None:
+    """Print the three most likely sections for one title."""
+    try:
+        top = models.predict_top_k(model, title, k=3)
+    except ValueError as error:
+        print(f"  Cannot classify: {error}")
+        return
+    for place, (section, score) in enumerate(top, start=1):
+        marker = "->" if place == 1 else "  "
+        print(f"  {marker} {place}. {section}   (score {score:+.2f})")
+    if top[0][1] < 0:      # no class is on the positive side of its decision boundary
+        print("  Low confidence: the title is not similar to the training titles of any section.")
+
+
+def action_predict(paths: dict) -> None:
+    """The user types a Kazakh title and gets the predicted section."""
+    model = models.load_model(paths["name"])
+    print_section("Classify a legal act by its title")
+    print(f"Model: {models.MODEL_TITLES[model['name']]}, trained {model['trained_at']}, "
+          f"test F1-macro {model['metrics']['f1_macro']}")
+    print("Example: Аудандық бюджет туралы шешімге өзгерістер енгізу туралы")
+    while True:
+        title = input("\nTitle in Kazakh (Enter to go back): ").strip()
+        if title == "":
+            break
+        classify_title(model, title)
+
+
 ACTIONS = {
     "1": action_download,
     "2": action_convert,
@@ -142,13 +181,17 @@ ACTIONS = {
     "7": action_build_db,
     "8": action_sql_menu,
     "9": action_eda,
+    "10": action_train,
+    "11": action_errors,
+    "12": action_predict,
     "sql_all": action_sql_all,      # used by --action sql
 }
 # names for the --action command-line option
 ACTION_NAMES = {"download": "1", "convert": "2", "memory": "3",
                 "benchmark": "4", "audit": "5", "overview": "6",
-                "db": "7", "sql": "sql_all", "eda": "9"}
-PIPELINE = ["convert", "memory", "benchmark", "audit", "overview", "db", "sql", "eda"]   # --action all
+                "db": "7", "sql": "sql_all", "eda": "9",
+                "train": "10", "errors": "11", "predict": "12"}
+PIPELINE = ["convert", "memory", "benchmark", "audit", "overview", "db", "sql", "eda", "train", "errors"]   # --action all
 
 
 def run_action(key: str, paths: dict) -> bool:
@@ -159,10 +202,11 @@ def run_action(key: str, paths: dict) -> bool:
     except FileNotFoundError as error:
         print(f"\nFile is missing: {error}")
         if paths["name"] == "full":
-            print("Hint: run items 1 (download), 2 (convert) and 7 (database) first, "
+            print("Hint: run items 1 (download), 2 (convert), 7 (database) and 10 (training) first, "
                   "or switch to the sample with item s.")
         else:
-            print("Hint: run item 2 (convert) first; SQL needs item 7 (build the database).")
+            print("Hint: run item 2 (convert) first; SQL, EDA and models need item 7 (database); "
+                  "items 11 and 12 need item 10 (training).")
     except (ValueError, KeyError) as error:
         print(f"\nUnexpected value: {error}")
     except OSError as error:
@@ -176,7 +220,7 @@ def show_menu(paths: dict) -> None:
     print(f"KAZAKH LEGAL ACT CLASSIFICATION   [data: {paths['name'].upper()}]")
     print("-" * 78)
     for key, label in MENU.items():
-        print(f"  {key} - {label}")
+        print(f"  {key:>2} - {label}")
 
 
 def menu_loop(use_sample: bool) -> None:
