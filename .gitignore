@@ -20,3 +20,6 @@ venv/
 
 # interactive charts embed plotly.js (4+ MB) - re-created by menu item 9
 reports/**/*.html
+
+# trained models are re-created by menu item 10
+models/

@@ -5,3 +5,6 @@ huggingface_hub>=0.23
 psutil>=5.9
 matplotlib>=3.8
 plotly>=5.20
+scikit-learn>=1.4
+joblib>=1.3
+sentence-transformers>=3.0   # LaBSE embeddings (installs PyTorch); optional, see README
