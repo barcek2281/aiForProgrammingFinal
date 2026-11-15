@@ -17,3 +17,6 @@ venv/
 # cached models / embeddings (added later)
 *.npy
 *.joblib
+
+# interactive charts embed plotly.js (4+ MB) - re-created by menu item 9
+reports/**/*.html
