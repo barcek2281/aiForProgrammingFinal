@@ -6,7 +6,7 @@ Without the menu:      python main.py --sample --action all
 """
 import argparse
 
-from src import audit, config, data_loader, db, queries
+from src import audit, config, data_loader, db, eda, queries
 from src.utils import format_bytes, load_json, print_section, save_json
 
 MENU = {
@@ -18,7 +18,8 @@ MENU = {
     "6": "Dataset overview",
     "7": "Build the SQLite database (normalised schema)",
     "8": "SQL analytics (12 queries: JOIN, CTE, window functions)",
-    "9": "Switch between FULL data and the 500-row SAMPLE",
+    "9": "EDA: charts and findings (PNG + interactive HTML)",
+    "s": "Switch between FULL data and the 500-row SAMPLE",
     "0": "Exit",
 }
 
@@ -126,6 +127,11 @@ def action_sql_menu(paths: dict) -> None:
         run_sql_queries(paths, [queries.find_query(choice)])
 
 
+def action_eda(paths: dict) -> None:
+    print_section(f"Exploratory data analysis ({paths['name']} data)")
+    eda.run_eda(paths)
+
+
 ACTIONS = {
     "1": action_download,
     "2": action_convert,
@@ -135,13 +141,14 @@ ACTIONS = {
     "6": action_overview,
     "7": action_build_db,
     "8": action_sql_menu,
+    "9": action_eda,
     "sql_all": action_sql_all,      # used by --action sql
 }
 # names for the --action command-line option
 ACTION_NAMES = {"download": "1", "convert": "2", "memory": "3",
                 "benchmark": "4", "audit": "5", "overview": "6",
-                "db": "7", "sql": "sql_all"}
-PIPELINE = ["convert", "memory", "benchmark", "audit", "overview", "db", "sql"]   # --action all
+                "db": "7", "sql": "sql_all", "eda": "9"}
+PIPELINE = ["convert", "memory", "benchmark", "audit", "overview", "db", "sql", "eda"]   # --action all
 
 
 def run_action(key: str, paths: dict) -> bool:
@@ -153,7 +160,7 @@ def run_action(key: str, paths: dict) -> bool:
         print(f"\nFile is missing: {error}")
         if paths["name"] == "full":
             print("Hint: run items 1 (download), 2 (convert) and 7 (database) first, "
-                  "or switch to the sample with item 9.")
+                  "or switch to the sample with item s.")
         else:
             print("Hint: run item 2 (convert) first; SQL needs item 7 (build the database).")
     except (ValueError, KeyError) as error:
@@ -178,7 +185,7 @@ def menu_loop(use_sample: bool) -> None:
     while True:
         show_menu(paths)
         try:
-            choice = input("Choose an option: ").strip()
+            choice = input("Choose an option: ").strip().lower()
         except (EOFError, KeyboardInterrupt):
             print("\nBye!")
             break
@@ -186,7 +193,7 @@ def menu_loop(use_sample: bool) -> None:
         if choice == "0":
             print("Bye!")
             break
-        elif choice == "9":
+        elif choice == "s":
             use_sample = not use_sample
             paths = config.get_paths(use_sample)
             print(f"Now working with the {paths['name'].upper()} data: {paths['csv']}")
