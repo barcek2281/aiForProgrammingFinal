@@ -15,7 +15,8 @@ word TF-IDF, character n-gram TF-IDF and LaBSE embeddings (metric: F1-macro).
 |---|---|---|
 | Chunked loading, CSV -> Parquet, dtype optimisation with memory measurements | `src/data_loader.py` | done |
 | Metadata audit (missing values, placeholders, dates, multi-valued fields, duplicates) | `src/audit.py` | done |
-| Relational schema, SQLite, SQL analytics | — | to do |
+| Relational schema in SQLite (ER diagram: [docs/er_diagram.md](docs/er_diagram.md)) | `src/db.py` | done |
+| SQL analytics: 12 queries with JOIN, HAVING, CTE and window functions | `src/queries.py` | done |
 | EDA and visualisations | — | to do |
 | Kazakh text preprocessing, models, error analysis, prediction for user input | — | to do |
 
@@ -31,7 +32,7 @@ python main.py
 ```
 
 The menu starts with the full dataset: choose **1** to download the CSV (337 MB, once),
-then **2** to convert it to Parquet, then any other item.
+then **2** to convert it to Parquet and **7** to build the SQLite database, then any other item.
 
 To try the program in a few seconds without the download, use the 500-row sample
 that is stored in the repository:
@@ -43,7 +44,7 @@ python main.py --sample
 Every step can also be run without the menu:
 
 ```bash
-python main.py --sample --action all      # convert -> memory -> benchmark -> audit -> overview
+python main.py --sample --action all      # convert -> memory -> benchmark -> audit -> overview -> db -> sql
 python main.py --action convert           # full data, one step
 ```
 
@@ -54,10 +55,13 @@ main.py                 console menu and command-line options
 src/config.py           paths, dataset location, column groups, placeholder list
 src/data_loader.py      download, chunked CSV -> Parquet, dtype optimisation, benchmark
 src/audit.py            metadata audit
+src/db.py               relational schema, normalisation, loading into SQLite
+src/queries.py          analytical SQL queries (results go to pandas and CSV)
+docs/er_diagram.md      ER diagram and normalisation decisions
 src/utils.py            timer, byte formatting, JSON helpers
 scripts/fetch_sample.py rebuilds data/sample/acts_sample_500.csv from the dataset-viewer API
 data/raw/               downloaded CSV (not in git)
-data/processed/         Parquet files (not in git)
+data/processed/         Parquet files and SQLite databases (not in git)
 data/sample/            500-row sample (in git)
 reports/full/           results for the full dataset: JSON and CSV tables
 ```
@@ -76,3 +80,14 @@ reports/full/           results for the full dataset: JSON and CSV tables
 Multi-valued fields (`legal_relation_area`, `act_form`, `adopting_body`) cannot be split with a
 plain `split(",")`, because many values contain commas themselves. `audit.split_multivalue`
 splits only on a comma that is outside parentheses and is followed by an upper-case letter.
+
+## Database and SQL
+
+`src/db.py` splits the flat table into 10 tables: `acts`, three lookup tables and three
+many-to-many relations (areas, forms and adopting bodies). The schema is created with explicit
+`CREATE TABLE` statements (primary and foreign keys, indexes) and checked with
+`PRAGMA foreign_key_check` after loading.
+
+`src/queries.py` holds 12 queries. Each result is loaded into pandas and saved to
+`reports/<full|sample>/sql/`. Queries 11 and 12 define the time-based train/test split and
+measure how many test titles already occur in the training period.
