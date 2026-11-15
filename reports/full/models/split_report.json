@@ -1,0 +1,22 @@
+{
+  "split_date": "2023-01-01",
+  "train_rows": 171094,
+  "test_rows_before_cleaning": 44536,
+  "test_rows_removed_title_seen_in_train": 5924,
+  "test_rows": 38612,
+  "test_share_pct": 18.4,
+  "train_date_range": [
+    "1947-10-30",
+    "2022-12-31"
+  ],
+  "test_date_range": [
+    "2023-01-01",
+    "2026-07-20"
+  ],
+  "classes_train": 35,
+  "classes_test": 35,
+  "classes_only_in_test": [],
+  "titles_shared_between_train_and_test": 0,
+  "validation_from": "2021-12-31",
+  "validation_rows": 12910
+}

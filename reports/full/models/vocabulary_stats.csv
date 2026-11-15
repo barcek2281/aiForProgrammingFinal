@@ -1,0 +1,3 @@
+representation,vocabulary,words_seen_once,test_tokens,test_tokens_unseen_in_train_pct
+word forms,31981,11068,619122,0.49
+stems,20064,7310,606662,0.33

@@ -1,0 +1,7 @@
+model,description,f1_macro,f1_weighted,accuracy,features,feature_seconds,train_seconds,train_matrix_mb,model_mb,val_f1_macro,best_params,predict_ms_per_1000
+baseline_most_frequent,Baseline: always the largest class,0.0174,0.2678,0.4389,0,0.0,0.1,0.0,0.0,,,
+baseline_stratified,Baseline: random by class frequency,0.0257,0.1966,0.1716,0,0.0,0.1,0.0,0.0,,,
+word_tfidf,Word forms TF-IDF + LinearSVC,0.5901,0.7852,0.7931,119153,2.4,14.0,33.9,31.8,0.5919,"C=1.0, class_weight=None",0.4
+stem_tfidf,Stems TF-IDF + LinearSVC,0.5895,0.7893,0.7972,89609,2.5,9.0,32.6,23.9,0.5913,"C=0.3, class_weight=None",0.3
+char_tfidf,Char n-grams TF-IDF + LinearSVC,0.5752,0.7832,0.7917,51293,19.0,33.6,437.1,13.7,0.5929,"C=0.3, class_weight=None",3.2
+labse,LaBSE embeddings + LogisticRegression,0.5327,0.755,0.7642,768,1386.2,58.7,501.3,0.1,0.5259,C=100.0,0.2

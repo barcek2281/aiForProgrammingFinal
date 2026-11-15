@@ -22,4 +22,4 @@ venv/
 reports/**/*.html
 
 # trained models are re-created by menu item 10
-models/
+/models/

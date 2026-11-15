@@ -1,0 +1,114 @@
+[
+  {
+    "model": "baseline_most_frequent",
+    "description": "Baseline: always the largest class",
+    "f1_macro": 0.0174,
+    "f1_weighted": 0.2678,
+    "accuracy": 0.4389,
+    "features": 0,
+    "feature_seconds": 0.0,
+    "train_seconds": 0.1,
+    "train_matrix_mb": 0.0,
+    "model_mb": 0.0
+  },
+  {
+    "model": "baseline_stratified",
+    "description": "Baseline: random by class frequency",
+    "f1_macro": 0.0257,
+    "f1_weighted": 0.1966,
+    "accuracy": 0.1716,
+    "features": 0,
+    "feature_seconds": 0.0,
+    "train_seconds": 0.1,
+    "train_matrix_mb": 0.0,
+    "model_mb": 0.0
+  },
+  {
+    "model": "word_tfidf",
+    "description": "Word forms TF-IDF + LinearSVC",
+    "f1_macro": 0.5901,
+    "f1_weighted": 0.7852,
+    "accuracy": 0.7931,
+    "val_f1_macro": 0.5919,
+    "best_params": "C=1.0, class_weight=None",
+    "features": 119153,
+    "feature_seconds": 2.4,
+    "train_seconds": 14.0,
+    "predict_ms_per_1000": 0.4,
+    "train_matrix_mb": 33.9,
+    "model_mb": 31.8,
+    "val_scores": {
+      "C=0.3, class_weight=None": 0.5902,
+      "C=0.3, class_weight=balanced": 0.5544,
+      "C=1.0, class_weight=None": 0.5919,
+      "C=1.0, class_weight=balanced": 0.573,
+      "C=3.0, class_weight=None": 0.5888,
+      "C=3.0, class_weight=balanced": 0.5755
+    }
+  },
+  {
+    "model": "stem_tfidf",
+    "description": "Stems TF-IDF + LinearSVC",
+    "f1_macro": 0.5895,
+    "f1_weighted": 0.7893,
+    "accuracy": 0.7972,
+    "val_f1_macro": 0.5913,
+    "best_params": "C=0.3, class_weight=None",
+    "features": 89609,
+    "feature_seconds": 2.5,
+    "train_seconds": 9.0,
+    "predict_ms_per_1000": 0.3,
+    "train_matrix_mb": 32.6,
+    "model_mb": 23.9,
+    "val_scores": {
+      "C=0.3, class_weight=None": 0.5913,
+      "C=0.3, class_weight=balanced": 0.5612,
+      "C=1.0, class_weight=None": 0.5834,
+      "C=1.0, class_weight=balanced": 0.5672,
+      "C=3.0, class_weight=None": 0.5757,
+      "C=3.0, class_weight=balanced": 0.564
+    }
+  },
+  {
+    "model": "char_tfidf",
+    "description": "Char n-grams TF-IDF + LinearSVC",
+    "f1_macro": 0.5752,
+    "f1_weighted": 0.7832,
+    "accuracy": 0.7917,
+    "val_f1_macro": 0.5929,
+    "best_params": "C=0.3, class_weight=None",
+    "features": 51293,
+    "feature_seconds": 19.0,
+    "train_seconds": 33.6,
+    "predict_ms_per_1000": 3.2,
+    "train_matrix_mb": 437.1,
+    "model_mb": 13.7,
+    "val_scores": {
+      "C=0.3, class_weight=None": 0.5929,
+      "C=0.3, class_weight=balanced": 0.5471,
+      "C=1.0, class_weight=None": 0.5899,
+      "C=1.0, class_weight=balanced": 0.5507,
+      "C=3.0, class_weight=None": 0.5741,
+      "C=3.0, class_weight=balanced": 0.5508
+    }
+  },
+  {
+    "model": "labse",
+    "description": "LaBSE embeddings + LogisticRegression",
+    "f1_macro": 0.5327,
+    "f1_weighted": 0.755,
+    "accuracy": 0.7642,
+    "val_f1_macro": 0.5259,
+    "best_params": "C=100.0",
+    "features": 768,
+    "feature_seconds": 1386.2,
+    "train_seconds": 58.7,
+    "predict_ms_per_1000": 0.2,
+    "train_matrix_mb": 501.3,
+    "model_mb": 0.1,
+    "val_scores": {
+      "C=10.0": 0.5199,
+      "C=100.0": 0.5259
+    }
+  }
+]
