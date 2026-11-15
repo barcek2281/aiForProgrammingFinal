@@ -1,0 +1,11 @@
+{
+  "tokens_min": 1,
+  "tokens_q1": 12.0,
+  "tokens_median": 19.0,
+  "tokens_mean": 20.0,
+  "tokens_q3": 25.0,
+  "tokens_max": 525,
+  "iqr_upper_fence": 44.5,
+  "iqr_outliers": 6526,
+  "one_word_titles": 4
+}
