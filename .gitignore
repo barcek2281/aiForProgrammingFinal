@@ -1,0 +1,19 @@
+# data that is too large for GitHub (re-created by main.py)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+reports/sample/
+
+# python / IDE
+__pycache__/
+*.pyc
+.venv/
+venv/
+.idea/
+.ipynb_checkpoints/
+.DS_Store
+
+# cached models / embeddings (added later)
+*.npy
+*.joblib
