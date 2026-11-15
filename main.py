@@ -6,7 +6,7 @@ Without the menu:      python main.py --sample --action all
 """
 import argparse
 
-from src import audit, config, data_loader
+from src import audit, config, data_loader, db, queries
 from src.utils import format_bytes, load_json, print_section, save_json
 
 MENU = {
@@ -16,7 +16,9 @@ MENU = {
     "4": "Benchmark: CSV vs Parquet (time, memory, file size)",
     "5": "Metadata audit (missing, placeholders, dates, multi-valued, duplicates)",
     "6": "Dataset overview",
-    "7": "Switch between FULL data and the 500-row SAMPLE",
+    "7": "Build the SQLite database (normalised schema)",
+    "8": "SQL analytics (12 queries: JOIN, CTE, window functions)",
+    "9": "Switch between FULL data and the 500-row SAMPLE",
     "0": "Exit",
 }
 
@@ -82,6 +84,48 @@ def action_overview(paths: dict) -> None:
         print(f"  - {title[:110]}")
 
 
+def action_build_db(paths: dict) -> None:
+    print_section(f"Building the SQLite database ({paths['name']} data)")
+    report = db.build_database(paths["parquet"], db.get_db_path(paths))
+    for table, n_rows in report["rows"].items():
+        print(f"  {table:20s} {n_rows:>9,} rows")
+    print(f"File: {report['db_path']} ({format_bytes(report['db_file_bytes'])}), "
+          f"built in {report['seconds']} s, "
+          f"foreign key violations: {report['foreign_key_violations']}")
+    save_json(report, paths["reports"] / "database_report.json")
+
+
+def run_sql_queries(paths: dict, selected: list) -> None:
+    """Run the given queries, print the results and save each one to CSV."""
+    out_dir = paths["reports"] / "sql"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for query in selected:
+        result, seconds = queries.run_one(db.get_db_path(paths), query, paths["name"] == "sample")
+        print_section(f"{query['key']}: {query['title']}")
+        print(f"Techniques: {query['techniques']} | {len(result)} rows | {seconds:.3f} s\n")
+        print(result.head(20).to_string(index=False, max_colwidth=60))
+        result.to_csv(out_dir / f"{query['key']}.csv", index=False, encoding="utf-8")
+    print(f"\nResults saved to {out_dir}")
+
+
+def action_sql_all(paths: dict) -> None:
+    run_sql_queries(paths, queries.QUERIES)
+
+
+def action_sql_menu(paths: dict) -> None:
+    """Sub-menu: the user picks one query or all of them."""
+    print_section("SQL analytics")
+    for number, query in enumerate(queries.QUERIES, start=1):
+        print(f"  {number:>2} - {query['title']}")
+    choice = input("Query number (or 'a' for all, Enter to go back): ").strip().lower()
+    if choice == "":
+        return
+    elif choice == "a":
+        action_sql_all(paths)
+    else:
+        run_sql_queries(paths, [queries.find_query(choice)])
+
+
 ACTIONS = {
     "1": action_download,
     "2": action_convert,
@@ -89,11 +133,15 @@ ACTIONS = {
     "4": action_benchmark,
     "5": action_audit,
     "6": action_overview,
+    "7": action_build_db,
+    "8": action_sql_menu,
+    "sql_all": action_sql_all,      # used by --action sql
 }
 # names for the --action command-line option
 ACTION_NAMES = {"download": "1", "convert": "2", "memory": "3",
-                "benchmark": "4", "audit": "5", "overview": "6"}
-PIPELINE = ["convert", "memory", "benchmark", "audit", "overview"]   # --action all
+                "benchmark": "4", "audit": "5", "overview": "6",
+                "db": "7", "sql": "sql_all"}
+PIPELINE = ["convert", "memory", "benchmark", "audit", "overview", "db", "sql"]   # --action all
 
 
 def run_action(key: str, paths: dict) -> bool:
@@ -104,12 +152,12 @@ def run_action(key: str, paths: dict) -> bool:
     except FileNotFoundError as error:
         print(f"\nFile is missing: {error}")
         if paths["name"] == "full":
-            print("Hint: run item 1 (download) and item 2 (convert) first, "
-                  "or switch to the sample with item 7.")
+            print("Hint: run items 1 (download), 2 (convert) and 7 (database) first, "
+                  "or switch to the sample with item 9.")
         else:
-            print("Hint: run item 2 (convert) first.")
+            print("Hint: run item 2 (convert) first; SQL needs item 7 (build the database).")
     except (ValueError, KeyError) as error:
-        print(f"\nThe data has an unexpected format: {error}")
+        print(f"\nUnexpected value: {error}")
     except OSError as error:
         print(f"\nDownload or disk problem: {error}")
     return False
@@ -138,7 +186,7 @@ def menu_loop(use_sample: bool) -> None:
         if choice == "0":
             print("Bye!")
             break
-        elif choice == "7":
+        elif choice == "9":
             use_sample = not use_sample
             paths = config.get_paths(use_sample)
             print(f"Now working with the {paths['name'].upper()} data: {paths['csv']}")
