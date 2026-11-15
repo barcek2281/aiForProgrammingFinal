@@ -1,0 +1,5 @@
+strategy,file_mb,load_seconds,memory_mb,rows,columns
+"CSV, pandas defaults (baseline)",321.16,2.707,353.57,215889,25
+"Parquet, no optimisation",19.51,0.071,345.27,215889,25
+Parquet + optimised dtypes,19.51,0.099,203.06,215889,25
+"Parquet, 3 columns only",19.51,0.015,66.72,215889,3

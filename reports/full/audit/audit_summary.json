@@ -1,0 +1,57 @@
+{
+  "rows": 215889,
+  "columns": 25,
+  "multivalue": {
+    "legal_relation_area": {
+      "column": "legal_relation_area",
+      "non_null_rows": 215509,
+      "multi_valued_rows": 152674,
+      "multi_valued_pct": 70.84,
+      "mean_values_per_row": 1.99,
+      "max_values_per_row": 12,
+      "distinct_raw_cells": 25283,
+      "distinct_cells_ignoring_order": 19237,
+      "distinct_values": 351,
+      "distinct_values_naive_comma_split": 450,
+      "values_seen_once": 15
+    },
+    "act_form": {
+      "column": "act_form",
+      "non_null_rows": 215826,
+      "multi_valued_rows": 91890,
+      "multi_valued_pct": 42.58,
+      "mean_values_per_row": 1.48,
+      "max_values_per_row": 7,
+      "distinct_raw_cells": 861,
+      "distinct_cells_ignoring_order": 596,
+      "distinct_values": 75,
+      "distinct_values_naive_comma_split": 75,
+      "values_seen_once": 9
+    },
+    "adopting_body": {
+      "column": "adopting_body",
+      "non_null_rows": 215819,
+      "multi_valued_rows": 3722,
+      "multi_valued_pct": 1.72,
+      "mean_values_per_row": 1.02,
+      "max_values_per_row": 13,
+      "distinct_raw_cells": 4251,
+      "distinct_cells_ignoring_order": 4087,
+      "distinct_values": 3422,
+      "distinct_values_naive_comma_split": 3465,
+      "values_seen_once": 956
+    }
+  },
+  "duplicates": {
+    "rows": 215889,
+    "duplicate_ids": 0,
+    "fully_duplicated_rows": 0,
+    "missing_titles": 0,
+    "distinct_titles": 161973,
+    "rows_with_repeated_title": 76460,
+    "rows_with_repeated_title_pct": 35.42,
+    "distinct_titles_normalized": 160341,
+    "rows_with_repeated_title_normalized": 78688,
+    "titles_with_conflicting_database_section": 4276
+  }
+}

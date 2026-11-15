@@ -1,0 +1,111 @@
+{
+  "created_at": "2026-11-16 00:50:21",
+  "csv_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/raw/data/kazakhlawcorpus_kk_only.csv",
+  "parquet_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/processed/acts_full.parquet",
+  "rows": 215889,
+  "columns": 25,
+  "chunks": 5,
+  "chunksize": 50000,
+  "seconds": 3.25,
+  "csv_file_bytes": 336764115,
+  "parquet_file_bytes": 20452542,
+  "memory_raw_strings_bytes": 372976476,
+  "memory_clean_typed_bytes": 362773983,
+  "peak_chunk_memory_bytes": 91893495,
+  "peak_process_memory_bytes": 615317504,
+  "expected_columns_missing": [],
+  "placeholders": {
+    "date_modified": {
+      "<empty>": 106980
+    },
+    "date_published": {
+      "<empty>": 190769
+    },
+    "state_registry_number": {
+      "<empty>": 30868
+    },
+    "law_registry_number": {
+      "ЖОҚ": 434,
+      "НЕТ": 11,
+      "нет": 1
+    },
+    "gov_registration_number": {
+      "НЕТ": 54826,
+      "<empty>": 25126,
+      "undefined": 23948
+    },
+    "ministry_registration_date": {
+      "<empty>": 186994
+    },
+    "adilet_url": {
+      "<empty>": 794
+    },
+    "ekb_url": {
+      "<empty>": 33742
+    },
+    "official_publication_info": {
+      "ЖОҚ": 40656,
+      "<empty>": 951
+    },
+    "act_form": {
+      "<empty>": 61,
+      "ЖОҚ": 2
+    },
+    "legal_relation_area": {
+      "ЖОҚ": 75,
+      "<empty>": 305
+    },
+    "legal_force": {
+      "<empty>": 78,
+      "ЖОҚ": 2
+    },
+    "adopting_body": {
+      "ЖОҚ": 42,
+      "<empty>": 28
+    },
+    "regulatory_body": {
+      "ЖОҚ": 93272,
+      "<empty>": 19
+    },
+    "developer_body": {
+      "<empty>": 148355,
+      "ЖОҚ": 3335,
+      "НЕТ": 486
+    },
+    "region": {
+      "<empty>": 24
+    },
+    "place_of_adoption": {
+      "ЖОҚ": 137,
+      "<empty>": 19
+    },
+    "database_section": {
+      "ЖОҚ": 106,
+      "<empty>": 134
+    }
+  },
+  "date_patterns": {
+    "date_adopted": {
+      "dddd-dd-dd": 215889
+    },
+    "date_modified": {
+      "dddd-dd-dd": 108909
+    },
+    "date_published": {
+      "dddd-dd-dd": 25120
+    },
+    "ministry_registration_date": {
+      "dddd-dd-dd": 28895
+    }
+  },
+  "unparsed_values": {
+    "source_id": 0,
+    "date_adopted": 0,
+    "date_modified": 0,
+    "date_published": 0,
+    "state_registry_number": 0,
+    "ministry_registration_date": 0,
+    "is_archive": 0,
+    "is_repealed": 0
+  }
+}

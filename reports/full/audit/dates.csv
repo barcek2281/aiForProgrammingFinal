@@ -1,0 +1,5 @@
+column,present,missing_pct,min,max,in_future,unparsed,raw_formats,before_adoption
+date_adopted,215889,0.0,1947-10-30,2026-07-20,0,0,dddd-dd-dd (215889),0
+date_modified,108909,49.55,1992-09-30,2026-03-10,0,0,dddd-dd-dd (108909),2
+date_published,25120,88.36,2013-12-26,2016-12-30,0,0,dddd-dd-dd (25120),1
+ministry_registration_date,28895,86.62,1997-04-21,2026-07-20,0,0,dddd-dd-dd (28895),2
