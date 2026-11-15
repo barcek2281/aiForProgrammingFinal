@@ -1,0 +1,18 @@
+{
+  "db_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/processed/acts_full.db",
+  "db_file_bytes": 259502080,
+  "seconds": 5.99,
+  "rows": {
+    "database_sections": 35,
+    "legal_forces": 42,
+    "regions": 2468,
+    "areas": 351,
+    "forms": 75,
+    "bodies": 3253,
+    "acts": 215889,
+    "act_areas": 428099,
+    "act_forms": 320143,
+    "act_bodies": 219793
+  },
+  "foreign_key_violations": 0
+}
