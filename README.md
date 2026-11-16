@@ -54,6 +54,17 @@ python main.py --sample --action all      # convert -> memory -> benchmark -> au
 python main.py --action convert           # full data, one step
 ```
 
+### Tests
+
+The logic that is written by hand - the Kazakh suffix stemmer, the splitter for multi-valued
+cells, title normalisation and the leakage-free split - is covered by unit tests. They use only
+the standard library's `unittest`, need no dataset and run in under a second:
+
+```bash
+python -m unittest                        # all tests
+python -m unittest tests.test_preprocess -v
+```
+
 ## Project structure
 
 ```
@@ -73,6 +84,7 @@ models/                 trained classifier for user input (not in git)
 docs/er_diagram.md      ER diagram and normalisation decisions
 src/utils.py            timer, byte formatting, JSON helpers
 scripts/fetch_sample.py rebuilds data/sample/acts_sample_500.csv from the dataset-viewer API
+tests/                  unit tests for preprocessing, audit, database helpers and the split
 data/raw/               downloaded CSV (not in git)
 data/processed/         Parquet files and SQLite databases (not in git)
 data/sample/            500-row sample (in git)
