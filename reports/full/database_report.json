@@ -1,7 +1,7 @@
 {
-  "db_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/processed/acts_full.db",
+  "db_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/processed/acts_full.db",
   "db_file_bytes": 259502080,
-  "seconds": 5.99,
+  "seconds": 10.67,
   "rows": {
     "database_sections": 35,
     "legal_forces": 42,

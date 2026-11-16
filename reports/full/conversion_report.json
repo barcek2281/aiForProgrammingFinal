@@ -1,18 +1,18 @@
 {
-  "created_at": "2026-11-16 00:50:21",
-  "csv_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/raw/data/kazakhlawcorpus_kk_only.csv",
-  "parquet_path": "/Users/adilkhan/PycharmProjects/ProgrammingForAI/final/data/processed/acts_full.parquet",
+  "created_at": "2026-11-16 09:12:20",
+  "csv_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/raw/data/kazakhlawcorpus_kk_only.csv",
+  "parquet_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/processed/acts_full.parquet",
   "rows": 215889,
   "columns": 25,
   "chunks": 5,
   "chunksize": 50000,
-  "seconds": 3.25,
+  "seconds": 3.38,
   "csv_file_bytes": 336764115,
   "parquet_file_bytes": 20452542,
   "memory_raw_strings_bytes": 372976476,
   "memory_clean_typed_bytes": 362773983,
   "peak_chunk_memory_bytes": 91893495,
-  "peak_process_memory_bytes": 615317504,
+  "peak_process_memory_bytes": 693043200,
   "expected_columns_missing": [],
   "placeholders": {
     "date_modified": {
