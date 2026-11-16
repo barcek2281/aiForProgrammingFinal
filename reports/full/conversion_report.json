@@ -1,7 +1,7 @@
 {
   "created_at": "2026-11-16 09:12:20",
-  "csv_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/raw/data/kazakhlawcorpus_kk_only.csv",
-  "parquet_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/processed/acts_full.parquet",
+  "csv_path": "data/raw/data/kazakhlawcorpus_kk_only.csv",
+  "parquet_path": "data/processed/acts_full.parquet",
   "rows": 215889,
   "columns": 25,
   "chunks": 5,

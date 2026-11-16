@@ -82,3 +82,16 @@ def get_paths(use_sample: bool = False) -> dict:
         "parquet": PROCESSED_DIR / f"acts_{name}.parquet",
         "reports": REPORTS_DIR / name,
     }
+
+
+def project_path(path) -> str:
+    """Path as a string relative to the project root, with '/' separators.
+
+    Reports are committed to git, so they must not contain the absolute path of
+    the machine that produced them ('/Users/.../aiForProgrammingFinal/data/...').
+    A path outside the project is returned unchanged.
+    """
+    try:
+        return Path(path).resolve().relative_to(BASE_DIR).as_posix()
+    except ValueError:
+        return str(path)

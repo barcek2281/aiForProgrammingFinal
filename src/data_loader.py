@@ -188,8 +188,8 @@ def convert_csv_to_parquet(csv_path: Path, parquet_path: Path,
                        if c not in schema.names]
     return {
         "created_at": now_str(),
-        "csv_path": str(csv_path),
-        "parquet_path": str(parquet_path),
+        "csv_path": config.project_path(csv_path),
+        "parquet_path": config.project_path(parquet_path),
         "rows": n_rows,
         "columns": len(schema.names),
         "chunks": n_chunks,

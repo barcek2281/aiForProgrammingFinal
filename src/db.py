@@ -208,7 +208,7 @@ def build_database(parquet_path: Path, db_path: Path) -> dict:
             connection.close()
 
     return {
-        "db_path": str(db_path),
+        "db_path": config.project_path(db_path),
         "db_file_bytes": db_path.stat().st_size,
         "seconds": round(timer.seconds, 2),
         "rows": {name: len(tables[name]) for name in TABLE_ORDER},

@@ -1,5 +1,5 @@
 {
-  "db_path": "/Users/adilet/Desktop/aiForProgrammingFinal/data/processed/acts_full.db",
+  "db_path": "data/processed/acts_full.db",
   "db_file_bytes": 259502080,
   "seconds": 10.67,
   "rows": {
