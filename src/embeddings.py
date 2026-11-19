@@ -83,9 +83,11 @@ def encode_titles(titles: list, name: str) -> np.ndarray:
         np.save(matrix_path, matrix)
         with open(titles_path, "w", encoding="utf-8") as f:
             json.dump(all_titles, f, ensure_ascii=False)
+        # read the previous total BEFORE opening the file for writing: "w" empties it
+        total_seconds = round(encoding_seconds(name) + timer.seconds, 1)
         with open(meta_path(name), "w", encoding="utf-8") as f:
             json.dump({"model": MODEL_NAME, "device": device, "titles": len(all_titles),
-                       "encode_seconds": round(encoding_seconds(name) + timer.seconds, 1)}, f)
+                       "encode_seconds": total_seconds}, f)
 
     rows = [index[title] for title in titles]
     return matrix[rows].astype(np.float32)
